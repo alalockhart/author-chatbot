@@ -234,25 +234,73 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
-    function sendMessage() {
+async function sendMessage() {
 
-      const text = input.value.trim();
+  const text = input.value.trim();
 
-      if (!text) return;
+  if (!text) return;
 
-      addMessage(text, "user");
+  addMessage(text, "user");
 
-      input.value = "";
+  input.value = "";
 
-      setTimeout(function() {
+  // Show temporary loading message
+  addMessage("Let me think...", "bot");
 
-        addMessage(
-          "I'm still being set up, but soon I'll be able to answer questions about the books, characters, reading recommendations, and more.",
-          "bot"
-        );
+  try {
 
-      }, 500);
+    const response = await fetch("/api/chat", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        message: text
+      })
+
+    });
+
+    const data = await response.json();
+
+    // Remove the loading message
+    const loadingMessage = messages.lastElementChild;
+
+    if (
+      loadingMessage &&
+      loadingMessage.textContent === "Let me think..."
+    ) {
+      loadingMessage.remove();
     }
+
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong.");
+    }
+
+    addMessage(data.reply, "bot");
+
+  } catch (error) {
+
+    console.error(error);
+
+    const loadingMessage = messages.lastElementChild;
+
+    if (
+      loadingMessage &&
+      loadingMessage.textContent === "Let me think..."
+    ) {
+      loadingMessage.remove();
+    }
+
+    addMessage(
+      "I'm sorry, something went wrong. Please try again.",
+      "bot"
+    );
+
+  }
+}
 
     sendButton.addEventListener("click", sendMessage);
 
