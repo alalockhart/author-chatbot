@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Author Chatbot</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #F3ECDC;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Chat button */
+    #chat-button {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+
+      width: 60px;
+      height: 60px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: #7E2625;
+      color: #F3ECDC;
+
+      font-size: 24px;
+      cursor: pointer;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.18);
+
+      z-index: 9999;
+    }
+
+    /* Chat window */
+    #chat-window {
+      display: none;
+
+      position: fixed;
+      right: 24px;
+      bottom: 96px;
+
+      width: 360px;
+      max-width: calc(100vw - 32px);
+      height: 520px;
+      max-height: calc(100vh - 120px);
+
+      background: #F3ECDC;
+
+      border: 1px solid #946632;
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+
+      z-index: 9998;
+    }
+
+    /* Header */
+    #chat-header {
+      padding: 18px 20px;
+
+      background: #7E2625;
+      color: #F3ECDC;
+    }
+
+    #chat-header h2 {
+      margin: 0;
+
+      font-family: Georgia, serif;
+      font-weight: normal;
+      font-size: 21px;
+    }
+
+    #chat-header p {
+      margin: 5px 0 0;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    /* Messages */
+    #messages {
+      height: calc(100% - 135px);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 14px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .bot {
+      color: #3f3028;
+    }
+
+    .user {
+      text-align: right;
+      color: #7E2625;
+    }
+
+    /* Input */
+    #input-area {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      display: flex;
+      gap: 8px;
+
+      padding: 12px;
+
+      background: #F3ECDC;
+      border-top: 1px solid rgba(148,102,50,0.35);
+    }
+
+    #user-input {
+      flex: 1;
+
+      border: 1px solid #946632;
+      border-radius: 20px;
+
+      padding: 10px 14px;
+
+      background: white;
+      outline: none;
+    }
+
+    #send-button {
+      border: none;
+      border-radius: 20px;
+
+      padding: 0 16px;
+
+      background: #7E2625;
+      color: #F3ECDC;
+
+      cursor: pointer;
+    }
+
+    @media (max-width: 500px) {
+
+      #chat-window {
+        right: 12px;
+        bottom: 84px;
+
+        width: calc(100vw - 24px);
+        height: calc(100vh - 110px);
+      }
+
+      #chat-button {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <button id="chat-button" aria-label="Open chat">
+    ✦
+  </button>
+
+  <div id="chat-window">
+
+    <div id="chat-header">
+      <h2>A little something for you</h2>
+      <p>Have a question? I'm here to help.</p>
+    </div>
+
+    <div id="messages">
+      <div class="message bot">
+        Hello, curious reader. What can I help you find?
+      </div>
+    </div>
+
+    <div id="input-area">
+      <input
+        id="user-input"
+        type="text"
+        placeholder="Ask a question..."
+        autocomplete="off"
+      >
+
+      <button id="send-button">
+        Send
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+
+    const chatButton = document.getElementById("chat-button");
+    const chatWindow = document.getElementById("chat-window");
+    const input = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const messages = document.getElementById("messages");
+
+    chatButton.addEventListener("click", function() {
+
+      if (chatWindow.style.display === "block") {
+        chatWindow.style.display = "none";
+      } else {
+        chatWindow.style.display = "block";
+        input.focus();
+      }
+
+    });
+
+    function addMessage(text, type) {
+
+      const message = document.createElement("div");
+
+      message.className = "message " + type;
+
+      message.textContent = text;
+
+      messages.appendChild(message);
+
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function sendMessage() {
+
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      addMessage(text, "user");
+
+      input.value = "";
+
+      setTimeout(function() {
+
+        addMessage(
+          "I'm still being set up, but soon I'll be able to answer questions about the books, characters, reading recommendations, and more.",
+          "bot"
+        );
+
+      }, 500);
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+
+    input.addEventListener("keydown", function(event) {
+
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
