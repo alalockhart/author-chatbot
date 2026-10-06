@@ -1,8 +1,1 @@
-{
-  "version": 2,
-  "functions": {
-    "api/chat.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
-}
+
