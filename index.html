@@ -294,10 +294,10 @@ async function sendMessage() {
       loadingMessage.remove();
     }
 
-    addMessage(
-      "I'm sorry, something went wrong. Please try again.",
-      "bot"
-    );
+addMessage(
+  "Error: " + error.message,
+  "bot"
+);
 
   }
 }
