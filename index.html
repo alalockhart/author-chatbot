@@ -248,6 +248,54 @@
   box-shadow:
     0 4px 12px rgba(126, 38, 37, 0.12);
 }
+    .typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 12px 15px;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  border: 1px solid rgba(148, 102, 50, 0.18);
+  border-radius: 4px 16px 16px 16px;
+
+  box-shadow:
+    0 4px 12px rgba(63, 48, 40, 0.05);
+}
+
+.typing-indicator span {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #946632;
+
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes typingDot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
 
     /* Input */
     #input-area {
@@ -428,7 +476,7 @@
 
       message.className = "message " + type;
 
-      message.textContent = text;
+      message.innerHTML = text;
 
       messages.appendChild(message);
 
@@ -446,7 +494,10 @@ async function sendMessage() {
   input.value = "";
 
   // Show temporary loading message
-  addMessage("Let me think...", "bot");
+  addMessage(
+  '<span class="typing-indicator"><span></span><span></span><span></span></span>',
+  "bot"
+);
 
   try {
 
@@ -470,11 +521,11 @@ async function sendMessage() {
     const loadingMessage = messages.lastElementChild;
 
     if (
-      loadingMessage &&
-      loadingMessage.textContent === "Let me think..."
-    ) {
-      loadingMessage.remove();
-    }
+  loadingMessage &&
+  loadingMessage.querySelector(".typing-indicator")
+) {
+  loadingMessage.remove();
+}
 
     if (!response.ok) {
       throw new Error(data.error || "Something went wrong.");
@@ -489,11 +540,11 @@ async function sendMessage() {
     const loadingMessage = messages.lastElementChild;
 
     if (
-      loadingMessage &&
-      loadingMessage.textContent === "Let me think..."
-    ) {
-      loadingMessage.remove();
-    }
+  loadingMessage &&
+  loadingMessage.querySelector(".typing-indicator")
+) {
+  loadingMessage.remove();
+}
 
 addMessage(
   "Error: " + error.message,
