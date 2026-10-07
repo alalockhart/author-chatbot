@@ -251,39 +251,65 @@
 
     /* Input */
     #input-area {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-      display: flex;
-      gap: 8px;
+  display: flex;
+  gap: 9px;
 
-      padding: 12px;
+  padding: 13px 14px;
 
-      background: #F3ECDC;
-      border-top: 1px solid rgba(148,102,50,0.35);
-    }
+  background: rgba(243, 236, 220, 0.96);
+
+  border-top: 1px solid rgba(148, 102, 50, 0.30);
+
+  box-shadow:
+    0 -6px 18px rgba(63, 48, 40, 0.04);
+}
 
 #user-input {
   flex: 1;
 
-  border: 1px solid #946632;
+  border: 1px solid rgba(148, 102, 50, 0.45);
   border-radius: 20px;
 
-  padding: 10px 14px;
+  padding: 10px 15px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.72);
+
   outline: none;
 
   font-family: "Mona Sans", sans-serif;
+  font-size: 13px;
+
+  color: #3f3028;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+    #user-input:focus {
+  border-color: #946632;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(148, 102, 50, 0.10);
+}
+
+#user-input::placeholder {
+  color: rgba(63, 48, 40, 0.55);
 }
 
 #send-button {
-  border: none;
+  border: 1px solid rgba(148, 102, 50, 0.55);
   border-radius: 20px;
 
-  padding: 0 16px;
+  padding: 0 17px;
 
   background: #7E2625;
   color: #F3ECDC;
@@ -293,6 +319,24 @@
   font-family: "Mona Sans", sans-serif;
   font-size: 13px;
   font-weight: 500;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+#send-button:hover {
+  background: #8A2A29;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 14px rgba(63, 48, 40, 0.14);
+}
+
+#send-button:active {
+  transform: translateY(0) scale(0.97);
 }
 
     @media (max-width: 500px) {
