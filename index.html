@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400;1,700&family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Viaoda+Libre&display=swap" rel="stylesheet">
+
   <title>Author Chatbot</title>
 
   <style>
@@ -15,7 +20,7 @@
       margin: 0;
       min-height: 100vh;
       background: #F3ECDC;
-      font-family: Arial, sans-serif;
+      font-family: "Bona Nova", Georgia, serif;
     }
 
     /* Chat button */
@@ -41,52 +46,82 @@
       z-index: 9999;
     }
 
-    /* Chat window */
-    #chat-window {
-      display: none;
+/* Chat window */
+#chat-window {
+  display: none;
 
-      position: fixed;
-      right: 24px;
-      bottom: 96px;
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
 
-      width: 360px;
-      max-width: calc(100vw - 32px);
-      height: 520px;
-      max-height: calc(100vh - 120px);
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 540px;
+  max-height: calc(100vh - 120px);
 
-      background: #F3ECDC;
+  background: #F3ECDC;
 
-      border: 1px solid #946632;
-      border-radius: 18px;
+  border: 1px solid rgba(148, 102, 50, 0.55);
+  border-radius: 22px;
 
-      overflow: hidden;
+  overflow: hidden;
 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow:
+    0 20px 60px rgba(63, 48, 40, 0.18),
+    0 4px 14px rgba(63, 48, 40, 0.10);
 
-      z-index: 9998;
-    }
+  z-index: 9998;
 
-    /* Header */
-    #chat-header {
-      padding: 18px 20px;
+  transform-origin: bottom right;
+}
 
-      background: #7E2625;
-      color: #F3ECDC;
-    }
+/* Header */
+#chat-header {
+  position: relative;
 
-    #chat-header h2 {
-      margin: 0;
+  padding: 22px 24px 20px;
 
-      font-family: Georgia, serif;
-      font-weight: normal;
-      font-size: 21px;
-    }
+  background: #7E2625;
+  color: #F3ECDC;
 
-    #chat-header p {
-      margin: 5px 0 0;
-      font-size: 13px;
-      opacity: 0.85;
-    }
+  border-bottom: 1px solid rgba(148, 102, 50, 0.6);
+}
+
+#chat-header::after {
+  content: "✦";
+
+  position: absolute;
+  right: 22px;
+  top: 18px;
+
+  font-size: 16px;
+  color: #946632;
+
+  opacity: 0.9;
+}
+
+#chat-header h2 {
+  margin: 0;
+
+  font-family: "Viaoda Libre", Georgia, serif;
+  font-weight: normal;
+
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+#chat-header p {
+  margin: 7px 0 0;
+
+  font-family: "Mona Sans", sans-serif;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  letter-spacing: 0.01em;
+  opacity: 0.88;
+}
 
     /* Messages */
     #messages {
@@ -126,29 +161,35 @@
       border-top: 1px solid rgba(148,102,50,0.35);
     }
 
-    #user-input {
-      flex: 1;
+#user-input {
+  flex: 1;
 
-      border: 1px solid #946632;
-      border-radius: 20px;
+  border: 1px solid #946632;
+  border-radius: 20px;
 
-      padding: 10px 14px;
+  padding: 10px 14px;
 
-      background: white;
-      outline: none;
-    }
+  background: white;
+  outline: none;
 
-    #send-button {
-      border: none;
-      border-radius: 20px;
+  font-family: "Mona Sans", sans-serif;
+}
 
-      padding: 0 16px;
+#send-button {
+  border: none;
+  border-radius: 20px;
 
-      background: #7E2625;
-      color: #F3ECDC;
+  padding: 0 16px;
 
-      cursor: pointer;
-    }
+  background: #7E2625;
+  color: #F3ECDC;
+
+  cursor: pointer;
+
+  font-family: "Mona Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
 
     @media (max-width: 500px) {
 
