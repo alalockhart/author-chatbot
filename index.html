@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700;1,400;1,700&family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Viaoda+Libre&display=swap" rel="stylesheet">
-
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
   <title>Author Chatbot</title>
 
   <style>
@@ -24,28 +24,84 @@
     }
 
     /* Chat button */
-    #chat-button {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
+#chat-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
 
-      width: 60px;
-      height: 60px;
+  width: 62px;
+  height: 62px;
 
-      border: none;
-      border-radius: 50%;
+  border: 1px solid rgba(148, 102, 50, 0.8);
+  border-radius: 50%;
 
-      background: #7E2625;
-      color: #F3ECDC;
+  background: #7E2625;
+  color: #F3ECDC;
 
-      font-size: 24px;
-      cursor: pointer;
+  font-family: "Viaoda Libre", Georgia, serif;
 
-      box-shadow: 0 5px 20px rgba(0,0,0,0.18);
+  cursor: pointer;
 
-      z-index: 9999;
-    }
+  box-shadow:
+    0 8px 25px rgba(63, 48, 40, 0.20),
+    inset 0 0 0 1px rgba(243, 236, 220, 0.12);
 
+  z-index: 9999;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+
+  animation: buttonBreath 4s ease-in-out infinite;
+}
+    #chat-button iconify-icon {
+  font-size: 28px;
+  vertical-align: middle;
+}
+
+#chat-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 5px;
+
+  border: 1px solid rgba(148, 102, 50, 0.65);
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+#chat-button:hover {
+  transform: translateY(-3px) rotate(3deg);
+
+  background: #8A2A29;
+
+  box-shadow:
+    0 12px 30px rgba(63, 48, 40, 0.24),
+    0 0 0 4px rgba(148, 102, 50, 0.10);
+}
+
+#chat-button:active {
+  transform: translateY(0) scale(0.96);
+}
+
+@keyframes buttonBreath {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 25px rgba(63, 48, 40, 0.20),
+      inset 0 0 0 1px rgba(243, 236, 220, 0.12);
+  }
+
+  50% {
+    box-shadow:
+      0 10px 28px rgba(63, 48, 40, 0.23),
+      0 0 0 5px rgba(148, 102, 50, 0.06),
+      inset 0 0 0 1px rgba(243, 236, 220, 0.12);
+  }
+}
+    
 /* Chat window */
 #chat-window {
   display: none;
@@ -75,6 +131,22 @@
   transform-origin: bottom right;
 }
 
+    #chat-window.chat-opening {
+  animation: chatOpen 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes chatOpen {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Header */
 #chat-header {
   position: relative;
@@ -85,19 +157,6 @@
   color: #F3ECDC;
 
   border-bottom: 1px solid rgba(148, 102, 50, 0.6);
-}
-
-#chat-header::after {
-  content: "✦";
-
-  position: absolute;
-  right: 22px;
-  top: 18px;
-
-  font-size: 16px;
-  color: #946632;
-
-  opacity: 0.9;
 }
 
 #chat-header h2 {
@@ -121,6 +180,16 @@
 
   letter-spacing: 0.01em;
   opacity: 0.88;
+}
+    .header-icon {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+
+  font-size: 18px;
+  color: #946632;
+
+  opacity: 0.9;
 }
 
     /* Messages */
@@ -211,22 +280,27 @@
 
 <body>
 
-  <button id="chat-button" aria-label="Open chat">
-    ✦
-  </button>
+<button id="chat-button" aria-label="Open chat">
+  <iconify-icon icon="ri:book-ai-fill"></iconify-icon>
+</button>
 
-  <div id="chat-window">
+<div id="chat-window">
 
-    <div id="chat-header">
-      <h2>A little something for you</h2>
-      <p>Have a question? I'm here to help.</p>
+  <div id="chat-header">
+    <h2>A little something for you</h2>
+    <p>Have a question? I'm here to help.</p>
+
+    <iconify-icon
+      icon="ri:book-ai-fill"
+      class="header-icon">
+    </iconify-icon>
+  </div>
+
+  <div id="messages">
+    <div class="message bot">
+      Hello, curious reader. What can I help you find?
     </div>
-
-    <div id="messages">
-      <div class="message bot">
-        Hello, curious reader. What can I help you find?
-      </div>
-    </div>
+  </div>
 
     <div id="input-area">
       <input
@@ -253,14 +327,21 @@
 
     chatButton.addEventListener("click", function() {
 
-      if (chatWindow.style.display === "block") {
-        chatWindow.style.display = "none";
-      } else {
-        chatWindow.style.display = "block";
-        input.focus();
-      }
+  if (chatWindow.style.display === "block") {
+    chatWindow.style.display = "none";
+  } else {
+    chatWindow.style.display = "block";
 
-    });
+    chatWindow.classList.remove("chat-opening");
+
+    void chatWindow.offsetWidth;
+
+    chatWindow.classList.add("chat-opening");
+
+    input.focus();
+  }
+
+});
 
     function addMessage(text, type) {
 
