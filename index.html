@@ -650,6 +650,18 @@ addMessage(
 
     });
 
+    document.querySelectorAll(".suggestion").forEach(function(button) {
+
+  button.addEventListener("click", function() {
+
+    input.value = button.dataset.question;
+
+    sendMessage();
+
+  });
+
+});
+
   </script>
 
 </body>
