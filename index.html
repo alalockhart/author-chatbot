@@ -233,6 +233,62 @@
     0 4px 12px rgba(63, 48, 40, 0.05);
 }
 
+    .welcome-text {
+  margin-bottom: 14px;
+}
+
+.suggestion-label {
+  margin-bottom: 8px;
+
+  font-family: "Mona Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+
+  color: #946632;
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.suggestion {
+  width: 100%;
+
+  padding: 8px 11px;
+
+  border: 1px solid rgba(148, 102, 50, 0.28);
+  border-radius: 12px;
+
+  background: rgba(243, 236, 220, 0.55);
+
+  color: #7E2625;
+
+  text-align: left;
+
+  font-family: "Mona Sans", sans-serif;
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.suggestion:hover {
+  background: rgba(148, 102, 50, 0.10);
+
+  border-color: rgba(148, 102, 50, 0.55);
+
+  transform: translateX(2px);
+}
+
     .user {
   margin-left: auto;
 
@@ -433,9 +489,29 @@
   </div>
 
   <div id="messages">
-    <div class="message bot">
-      Hello, curious reader. What can I help you find?
-    </div>
+    <div class="message bot welcome-message">
+  <div class="welcome-text">
+    Hello, curious reader. What can I help you find?
+  </div>
+
+  <div class="suggestion-label">
+    You might ask me...
+  </div>
+
+  <div class="suggestions">
+    <button class="suggestion" data-question="Tell me about your books.">
+      Tell me about your books
+    </button>
+
+    <button class="suggestion" data-question="What tropes do you write?">
+      What tropes do you write?
+    </button>
+
+    <button class="suggestion" data-question="Which book should I read first?">
+      Which book should I read first?
+    </button>
+  </div>
+</div>
   </div>
 
     <div id="input-area">
