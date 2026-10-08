@@ -656,6 +656,9 @@ addMessage(
 
     input.value = button.dataset.question;
 
+    document.querySelector(".suggestion-label").style.display = "none";
+    document.querySelector(".suggestions").style.display = "none";
+
     sendMessage();
 
   });
