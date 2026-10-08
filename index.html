@@ -354,24 +354,33 @@
 }
 
 #send-button {
-  border: 1px solid rgba(148, 102, 50, 0.55);
-  border-radius: 20px;
+  width: 40px;
+  height: 40px;
 
-  padding: 0 17px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(148, 102, 50, 0.55);
+  border-radius: 50%;
 
   background: #7E2625;
   color: #F3ECDC;
 
   cursor: pointer;
 
-  font-family: "Mona Sans", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-
   transition:
     transform 0.25s ease,
     background 0.25s ease,
     box-shadow 0.25s ease;
+}
+
+    #send-button iconify-icon {
+  font-size: 19px;
 }
 
 #send-button:hover {
@@ -384,7 +393,7 @@
 }
 
 #send-button:active {
-  transform: translateY(0) scale(0.97);
+  transform: translateY(0) scale(0.94);
 }
 
     @media (max-width: 500px) {
@@ -437,9 +446,9 @@
         autocomplete="off"
       >
 
-      <button id="send-button">
-        Send
-      </button>
+      <button id="send-button" aria-label="Send message">
+  <iconify-icon icon="ri:arrow-up-line"></iconify-icon>
+</button>
     </div>
 
   </div>
