@@ -115,7 +115,11 @@
   height: 540px;
   max-height: calc(100vh - 120px);
 
-  background: #F3ECDC;
+  background: linear-gradient(
+  to bottom,
+  #FFFFFF 0%,
+  #F3ECDC 100%
+  );
 
   border: 1px solid rgba(148, 102, 50, 0.55);
   border-radius: 22px;
@@ -170,7 +174,7 @@
   font-family: "Bona Nova", Georgia, serif;
   font-weight: normal;
 
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.2;
   letter-spacing: 0.01em;
 }
@@ -240,7 +244,7 @@
   min-width: 175px;
   padding: 6px;
 
-  background: #F3ECDC;
+  background: #FFFFFF;
   border: 1px solid rgba(148, 102, 50, 0.55);
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
@@ -255,7 +259,7 @@
   width: 100%;
   padding: 10px 12px;
 
-  color: #7E2625;
+  color: black;
   background: transparent;
   border: none;
   border-radius: 5px;
@@ -624,7 +628,7 @@
 
   
 <div id="chat-header">
-  <h2>Ask me anything 📖 ...</h2>
+  <h2>Ask me anything...</h2>
 
   <iconify-icon
     icon="ri:book-ai-fill"
@@ -664,8 +668,8 @@
   <div id="messages">
   <div class="message bot welcome-message">
     <div class="welcome-text">
-      ✦ Welcome, wanderer.<br><br>
-      What would you like to know? I promise I don’t bite. 👋
+      Welcome, reader. 📖 <br><br>
+      What would you like to know? I promise I don’t bite. 👋😏
     </div>
   </div>
 
