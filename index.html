@@ -150,6 +150,20 @@
     transform: translateY(0) scale(1);
   }
 }
+    #chat-window.chat-closing {
+  animation: chatClose 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes chatClose {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+}
 
 /* Header */
 #chat-header {
@@ -917,39 +931,40 @@ if (SpeechRecognition && micButton) {
   micButton.title = "Dictation is not supported in this browser";
 }
 
-/* Chat header controls */
-
-// Open and close the three-dot menu
-chatMenuButton.addEventListener("click", function(event) {
-  event.stopPropagation();
-
-  const isOpen = !chatMenu.hidden;
-  chatMenu.hidden = isOpen;
-
-  chatMenuButton.setAttribute("aria-expanded", String(!isOpen));
-});
-
-// Close the menu when clicking elsewhere
-document.addEventListener("click", function(event) {
-  if (
-    !chatMenu.contains(event.target) &&
-    !chatMenuButton.contains(event.target)
-  ) {
+// Function to handle closing the chat smoothly
+function closeChat() {
+  if (chatWindow.style.display === "block" && !chatWindow.classList.contains("chat-closing")) {
+    chatWindow.classList.add("chat-closing");
+    
+    if (recognition && isListening) {
+      recognition.stop();
+    }
     chatMenu.hidden = true;
     chatMenuButton.setAttribute("aria-expanded", "false");
+
+    // Wait for animation to finish, then hide
+    setTimeout(() => {
+      chatWindow.style.display = "none";
+      chatWindow.classList.remove("chat-closing");
+    }, 350); // Matches the 0.38s duration
+  }
+}
+
+// Toggle button click
+chatButton.addEventListener("click", function() {
+  if (chatWindow.style.display === "block") {
+    closeChat();
+  } else {
+    chatWindow.style.display = "block";
+    chatWindow.classList.remove("chat-closing", "chat-opening");
+    void chatWindow.offsetWidth; // Trigger reflow
+    chatWindow.classList.add("chat-opening");
+    input.focus();
   }
 });
 
-// Close the chat window without ending the conversation
-chatCloseButton.addEventListener("click", function() {
-  chatWindow.style.display = "none";
-  chatMenu.hidden = true;
-  chatMenuButton.setAttribute("aria-expanded", "false");
-
-  if (recognition && isListening) {
-    recognition.stop();
-  }
-});
+// Close button click
+chatCloseButton.addEventListener("click", closeChat);
 
 // Start a new chat
 newChatButton.addEventListener("click", function() {
