@@ -55,7 +55,7 @@
 
   animation: buttonBreath 4s ease-in-out infinite;
 }
-    #chat-button iconify-icon {
+    #button iconify-icon {
   font-size: 28px;
   vertical-align: middle;
 }
@@ -451,6 +451,28 @@
 
 #send-button:active {
   transform: translateY(0) scale(0.94);
+}
+
+    
+/* Mobile adjustments */
+@media screen and (max-width: 600px) {
+
+  #chat-window {
+    height: 480px;
+    max-height: 75vh;
+  }
+
+  #chat-button {
+    width: 52px;
+    height: 52px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  #chat-button iconify-icon {
+    font-size: 23px;
+  }
+
 }
 
     @media (max-width: 500px) {
