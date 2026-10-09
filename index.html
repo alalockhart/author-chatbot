@@ -716,6 +716,18 @@
     const sendButton = document.getElementById("send-button");
     const messages = document.getElementById("messages");
 
+    
+const chatMenuButton = document.getElementById("chat-menu-button");
+const chatMenu = document.getElementById("chat-menu");
+const chatCloseButton = document.getElementById("chat-close-button");
+const newChatButton = document.getElementById("new-chat-button");
+const endChatButton = document.getElementById("end-chat-button");
+
+// Save the original welcome message and suggested questions
+const initialMessagesHTML = messages.innerHTML;
+
+let chatEnded = false;
+
     chatButton.addEventListener("click", function() {
 
   if (chatWindow.style.display === "block") {
@@ -747,10 +759,11 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
+
 async function sendMessage() {
+  if (chatEnded) return;
 
   const text = input.value.trim();
-
   if (!text) return;
 
   addMessage(text, "user");
@@ -828,20 +841,27 @@ addMessage(
 
     });
 
-    document.querySelectorAll(".suggestion").forEach(function(button) {
+    
+function bindSuggestions() {
+  document.querySelectorAll(".suggestion").forEach(function(button) {
+    button.addEventListener("click", function() {
+      if (chatEnded) return;
 
-  button.addEventListener("click", function() {
+      input.value = button.dataset.question;
 
-    input.value = button.dataset.question;
+      const suggestionLabel = document.querySelector(".suggestion-label");
+      const suggestions = document.querySelector(".suggestions");
 
-    document.querySelector(".suggestion-label").style.display = "none";
-    document.querySelector(".suggestions").style.display = "none";
+      if (suggestionLabel) suggestionLabel.style.display = "none";
+      if (suggestions) suggestions.style.display = "none";
 
-    sendMessage();
-
+      sendMessage();
+    });
   });
+}
 
-});
+bindSuggestions();
+
     
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -900,6 +920,80 @@ if (SpeechRecognition && micButton) {
   micButton.disabled = true;
   micButton.title = "Dictation is not supported in this browser";
 }
+
+/* Chat header controls */
+
+// Open and close the three-dot menu
+chatMenuButton.addEventListener("click", function(event) {
+  event.stopPropagation();
+
+  const isOpen = !chatMenu.hidden;
+  chatMenu.hidden = isOpen;
+
+  chatMenuButton.setAttribute("aria-expanded", String(!isOpen));
+});
+
+// Close the menu when clicking elsewhere
+document.addEventListener("click", function(event) {
+  if (
+    !chatMenu.contains(event.target) &&
+    !chatMenuButton.contains(event.target)
+  ) {
+    chatMenu.hidden = true;
+    chatMenuButton.setAttribute("aria-expanded", "false");
+  }
+});
+
+// Close the chat window without ending the conversation
+chatCloseButton.addEventListener("click", function() {
+  chatWindow.style.display = "none";
+  chatMenu.hidden = true;
+  chatMenuButton.setAttribute("aria-expanded", "false");
+
+  if (recognition && isListening) {
+    recognition.stop();
+  }
+});
+
+// Start a new chat
+newChatButton.addEventListener("click", function() {
+  if (recognition && isListening) {
+    recognition.stop();
+  }
+
+  chatEnded = false;
+  messages.innerHTML = initialMessagesHTML;
+  input.value = "";
+
+  input.disabled = false;
+  sendButton.disabled = false;
+  micButton.disabled = !recognition;
+
+  chatMenu.hidden = true;
+  chatMenuButton.setAttribute("aria-expanded", "false");
+
+  bindSuggestions();
+  input.focus();
+});
+
+// End the current chat
+endChatButton.addEventListener("click", function() {
+  if (recognition && isListening) {
+    recognition.stop();
+  }
+
+  chatEnded = true;
+  input.value = "";
+  input.disabled = true;
+  sendButton.disabled = true;
+  micButton.disabled = true;
+
+  messages.innerHTML =
+    '<div class="message bot">Chat ended. Thank you for stopping by. Whenever you’re ready, choose “Start a new chat” from the menu.</div>';
+
+  chatMenu.hidden = true;
+  chatMenuButton.setAttribute("aria-expanded", "false");
+});
 
 
   </script>
