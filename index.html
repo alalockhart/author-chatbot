@@ -603,6 +603,7 @@
     const chatButton = document.getElementById("chat-button");
     const chatWindow = document.getElementById("chat-window");
     const input = document.getElementById("user-input");
+    const micButton = document.getElementById("mic-button");
     const sendButton = document.getElementById("send-button");
     const messages = document.getElementById("messages");
 
@@ -732,6 +733,65 @@ addMessage(
   });
 
 });
+    
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognition = null;
+let isListening = false;
+
+if (SpeechRecognition && micButton) {
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  micButton.addEventListener("click", function() {
+    if (isListening) {
+      recognition.stop();
+      return;
+    }
+
+    try {
+      recognition.start();
+    } catch (error) {
+      console.error("Could not start dictation:", error);
+    }
+  });
+
+  recognition.onstart = function() {
+    isListening = true;
+    micButton.style.background = "rgba(148, 102, 50, 0.20)";
+    micButton.setAttribute("aria-label", "Stop dictation");
+    micButton.title = "Stop dictation";
+  };
+
+  recognition.onresult = function(event) {
+    let transcript = "";
+
+    for (let i = 0; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    input.value = transcript;
+  };
+
+  recognition.onend = function() {
+    isListening = false;
+    micButton.style.background = "transparent";
+    micButton.setAttribute("aria-label", "Dictate a message");
+    micButton.title = "Dictate a message";
+  };
+
+  recognition.onerror = function(event) {
+    console.error("Speech recognition error:", event.error);
+  };
+
+} else if (micButton) {
+  micButton.disabled = true;
+  micButton.title = "Dictation is not supported in this browser";
+}
+
 
   </script>
 
