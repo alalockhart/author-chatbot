@@ -150,6 +150,10 @@
 /* Header */
 #chat-header {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 
   padding: 22px 24px 20px;
 
@@ -161,12 +165,13 @@
 
 #chat-header h2 {
   margin: 0;
+  padding-right: 100px;
 
   font-family: "Bona Nova", Georgia, serif;
   font-weight: normal;
 
   font-size: 22px;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0.01em;
 }
 
@@ -181,16 +186,90 @@
   letter-spacing: 0.01em;
   opacity: 0.88;
 }
-    .header-icon {
-  position: absolute;
-  right: 22px;
-  top: 18px;
 
+/* Header action buttons */
+.header-actions {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon {
   font-size: 18px;
   color: white;
-
   opacity: 0.9;
 }
+
+#chat-menu-button,
+#chat-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  padding: 0;
+
+  color: #F3ECDC;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+
+  font-size: 21px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#chat-menu-button:hover,
+#chat-close-button:hover {
+  background: rgba(243, 236, 220, 0.14);
+}
+
+/* Three-dot dropdown menu */
+#chat-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% - 8px);
+  right: 44px;
+
+  min-width: 175px;
+  padding: 6px;
+
+  background: #F3ECDC;
+  border: 1px solid rgba(148, 102, 50, 0.55);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+#chat-menu[hidden] {
+  display: none !important;
+}
+
+#chat-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+
+  color: #7E2625;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+
+  font-family: "Mona Sans", sans-serif;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+#chat-menu button:hover {
+  background: rgba(148, 102, 50, 0.12);
+}
+
 
     /* Messages */
     #messages {
@@ -543,14 +622,44 @@
 
 <div id="chat-window">
 
-  <div id="chat-header">
-    <h2>Ask me anything 📖 ... </h2>
+  
+<div id="chat-header">
+  <h2>Ask me anything 📖 ...</h2>
 
-    <iconify-icon
-      icon="ri:book-ai-fill"
-      class="header-icon">
-    </iconify-icon>
+  <iconify-icon
+    icon="ri:book-ai-fill"
+    class="header-icon">
+  </iconify-icon>
+
+  <div class="header-actions">
+
+    <button
+      id="chat-menu-button"
+      type="button"
+      aria-label="Chat options"
+      title="Chat options">
+      <iconify-icon icon="bi:three-dots"></iconify-icon>
+    </button>
+
+    <button
+      id="chat-close-button"
+      type="button"
+      aria-label="Close chat"
+      title="Close chat">
+      <iconify-icon icon="ri:close-line"></iconify-icon>
+    </button>
+
   </div>
+
+  <div id="chat-menu" class="chat-menu" hidden>
+    <button type="button" id="new-chat-button">
+      Start a new chat
+    </button>
+    <button type="button" id="end-chat-button">
+      End chat
+    </button>
+  </div>
+</div>
 
   <div id="messages">
   <div class="message bot welcome-message">
