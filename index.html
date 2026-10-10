@@ -299,6 +299,18 @@
             overflow-y: auto;
         }
 
+        /* ======================================== CUSTOM CHAT SCROLLBAR ======================================== */
+
+#messages { scrollbar-width: thin; scrollbar-color: #946632 transparent; }
+
+/* Chrome, Safari, Edge */ #messages::-webkit-scrollbar { width: 6px; }
+
+#messages::-webkit-scrollbar-track { background: transparent; margin: 12px 0; }
+
+#messages::-webkit-scrollbar-thumb { background: #946632; border-radius: 10px; border: 1px solid #F3ECDC; }
+
+#messages::-webkit-scrollbar-thumb:hover { background: #7E2625; }
+
         .message {
             margin-bottom: 14px;
             line-height: 1.6;
